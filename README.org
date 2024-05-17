@@ -49,5 +49,20 @@ bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server 1
 This is my first event
 This is my second event
   #+end_src
+* Apache Kafka Single Node Docker
+- Install docker compose
+  #+begin_src shell
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-aarch64" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+# Docker Compose version v2.27.0
+  #+end_src
+
+- Start broker server
+  #+begin_src shell
+docker-compose up
+  #+end_src
 * links
 - https://kafka.apache.org/quickstart
+- https://github.com/apache/kafka/blob/trunk/docker/examples/README.md
+- https://github.com/apache/kafka/blob/trunk/docker/examples/jvm/single-node/plaintext/docker-compose.yml
