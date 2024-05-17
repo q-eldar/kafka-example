@@ -1,0 +1,53 @@
+* kafka-example
+Remote producer/consumer kafka example
+* Get Kafka
+This setup is for kafka_2.13-3.7.0 version
+#+begin_src shell
+wget  https://dlcdn.apache.org/kafka/3.7.0/kafka_2.13-3.7.0.tgz
+tar -xzf kafka_2.13-3.7.0.tgz
+cd kafka_2.13-3.7.0
+#+end_src
+* Change server config properties for remote producer/consumer
+- On conf/servers.properties file:
+  #+begin_src shell
+# The address the socket server listens on. If not configured, the host name will be equal to the value of                                                                                                         
+# java.net.InetAddress.getCanonicalHostName(), with PLAINTEXT listener name, and port 9092.                                                                                                                        
+#   FORMAT:                                                                                                                                                                                                        
+#     listeners = listener_name://host_name:port                                                                                                                                                                   
+#   EXAMPLE:                                                                                                                                                                                                       
+#     listeners = PLAINTEXT://your.host.name:9092                                                                                                                                                                  
+listeners=PLAINTEXT://192.168.0.198:9092 # 192.168.0.198 is my ip address where broker server is going to run 
+  #+end_src
+* Start the Kafka environment
+- Start ZooKeeper
+  #+begin_src shell
+# Start the ZooKeeper service
+bin/zookeeper-server-start.sh config/zookeeper.properties
+  #+end_src
+
+- Open another terminal session and run:
+  #+begin_src shell
+# Start the Kafka broker service
+bin/kafka-server-start.sh config/server.properties
+  #+end_src 
+* Create a topic to store your events
+- Open another terminal session on same ip as is broker server and run:
+  #+begin_src shell
+bin/kafka-topics.sh --create --topic test --bootstrap-server 192.168.0.198:9092
+  #+end_src
+* Write some events into the topic
+- Fom same therminal:
+  #+begin_src shell
+ bin/kafka-console-producer.sh --topic test --bootstrap-server 192.168.0.198:9092
+ This is my first event
+ This is my second event
+  #+end_src
+* Read the events
+- Open terminal session on different ip and run:
+  #+begin_src shell
+bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server 192.168.0.198:9092
+This is my first event
+This is my second event
+  #+end_src
+* links
+- https://kafka.apache.org/quickstart
